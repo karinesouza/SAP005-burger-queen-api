@@ -1,21 +1,35 @@
-
-const db = require('../db/models');
+const db = require("../db/models");
 
 const getAllProducts = (req, res) => {
-  db.Product.findAll()
+  db.Products.findAll()
+    .then((result) => {
+      res.status(200).json(result);
+      connection.end();
+    })
+    .catch(() =>
+      res.json({
+        message: "Deu ruim!",
+      })
+    );
+};
+
+
+
+const getProductId = (req, res) => {
+  db.Products.findAll({ where: { id: req.params.id } })
     .then((result) => {
       res.status(200).json(result);
     })
-    .catch(() => res.json({
-      message: 'erro ao processar requisição',
-    }));
+    .catch(() =>
+      res.json({
+        message: "Deu ruim!",
+      })
+    );
 };
 
 const ProductPost = (req, res) => {
-  const {
-    name, price, flavor, complement, image, type, sub_type,
-  } = req.body;
-  db.Product.create({
+  const { name, price, flavor, complement, image, type, sub_type } = req.body;
+  db.Products.create({
     name,
     price,
     flavor,
@@ -27,59 +41,49 @@ const ProductPost = (req, res) => {
     .then((result) => {
       res.status(201).json(result);
     })
-    .catch(() => res.json({
-      message: 'erro ao salvar produto',
-    }));
+    .catch(() =>
+      res.json({
+        message: "Deu ruim!",
+      })
+    );
 };
 
-const getProductId = (req, res) => {
-  db.Product.findAll({ where: { id: req.params.id } })
-    .then((product) => {
-      res.status(200).json(product);
-    })
-    .catch(() => res.json({
-      message: 'erro ao processar requisição',
-    }));
-};
 
 const ProductPut = (req, res) => {
-  const {
-    name, price, flavor, complement, image, type, sub_type,
-  } = req.body;
-  db.Product.update({
-    name,
-    price,
-    flavor,
-    complement,
-    image,
-    type,
-    sub_type,
-  }, { where: { id: req.params.id } })
-
+  const { name, price, flavor, complement, image, type, sub_type } = req.body;
+  db.Products.update(
+    {
+      name,
+      price,
+      flavor,
+      complement,
+      image,
+      type,
+      sub_type,
+    },
+    { where: { id: req.params.id } }
+  )
     .then(() => {
       res.status(200).json({
-        message: 'produto atualizado',
+        message: "Dados atualizados!",
       });
     })
     .catch(() => {
       res.json({
-        message: 'erro ao atualizar produto',
+        message: "Deu ruim!",
       });
     });
 };
 
 const productsDelete = (req, res) => {
-  db.Product.destroy({ where: { id: req.params.id } })
+    db.Products.destroy({ where: { id: req.params.id } })
     .then(() => {
       res.status(200).json({
-        message: 'produto excluído',
+        message: 'Deletado!',
       });
     })
-    .catch(() => {
-      res.json({
-        message: 'erro ao excluir produto',
-      });
-    });
+    .catch(() => res.status(400).json({
+      message: 'Deu ruim!',
+    }));
 };
-
 module.exports = { getAllProducts, getProductId, ProductPost, ProductPut, productsDelete }
