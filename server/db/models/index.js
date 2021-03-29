@@ -1,25 +1,14 @@
+/* eslint-disable global-require */
+/* eslint-disable prefer-template */
+/* eslint-disable no-path-concat */
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable lines-around-directive */
+// eslint-disable-next-line strict
 'use strict';
-
-// const { Sequelize } = require("sequelize");
-
-// const sequelize = new Sequelize(process.env.DATABASE_URL, {
-//   dialectOptions: {
-//     ssl: {
-//       rejectUnauthorized: false,
-//     },
-//   },
-// });
-
-
-// sequelize
-//   .authenticate()
-//   .then(() => console.log("Connection has been established successfully."))
-//   .catch((err) => console.error("Unable to connect to the database:", err));
-
-// module.exports = sequelize;
 
 const fs = require('fs');
 const path = require('path');
+// eslint-disable-next-line import/newline-after-import
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
@@ -30,29 +19,22 @@ let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-fs.readdirSync(__dirname)
+fs
+  .readdirSync(__dirname)
+  // eslint-disable-next-line arrow-body-style
   .filter((file) => {
-    return (
-      file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
-    );
+    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
   })
   .forEach((file) => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    );
+    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
 
-Object.keys(db).forEach((modelName) => {
+// eslint-disable-next-line arrow-parens
+Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
@@ -61,4 +43,5 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+// eslint-disable-next-line eol-last
 module.exports = db;

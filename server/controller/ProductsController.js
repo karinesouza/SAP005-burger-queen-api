@@ -1,19 +1,20 @@
+/* eslint-disable camelcase */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable quotes */
 const db = require("../db/models");
 
 const getAllProducts = (req, res) => {
   db.Products.findAll()
     .then((result) => {
       res.status(200).json(result);
+      // eslint-disable-next-line no-undef
       connection.end();
     })
     .catch(() =>
       res.json({
         message: "Deu ruim!",
-      })
-    );
+      }));
 };
-
-
 
 const getProductId = (req, res) => {
   db.Products.findAll({ where: { id: req.params.id } })
@@ -23,12 +24,13 @@ const getProductId = (req, res) => {
     .catch(() =>
       res.json({
         message: "Deu ruim!",
-      })
-    );
+      }));
 };
 
 const ProductPost = (req, res) => {
-  const { name, price, flavor, complement, image, type, sub_type } = req.body;
+  const {
+    name, price, flavor, complement, image, type, sub_type,
+  } = req.body;
   db.Products.create({
     name,
     price,
@@ -44,13 +46,13 @@ const ProductPost = (req, res) => {
     .catch(() =>
       res.json({
         message: "Deu ruim!",
-      })
-    );
+      }));
 };
 
-
 const ProductPut = (req, res) => {
-  const { name, price, flavor, complement, image, type, sub_type } = req.body;
+  const {
+    name, price, flavor, complement, image, type, sub_type,
+  } = req.body;
   db.Products.update(
     {
       name,
@@ -61,7 +63,7 @@ const ProductPut = (req, res) => {
       type,
       sub_type,
     },
-    { where: { id: req.params.id } }
+    { where: { id: req.params.id } },
   )
     .then(() => {
       res.status(200).json({
@@ -76,7 +78,7 @@ const ProductPut = (req, res) => {
 };
 
 const productsDelete = (req, res) => {
-    db.Products.destroy({ where: { id: req.params.id } })
+  db.Products.destroy({ where: { id: req.params.id } })
     .then(() => {
       res.status(200).json({
         message: 'Deletado!',
@@ -86,4 +88,6 @@ const productsDelete = (req, res) => {
       message: 'Deu ruim!',
     }));
 };
-module.exports = { getAllProducts, getProductId, ProductPost, ProductPut, productsDelete }
+module.exports = {
+  getAllProducts, getProductId, ProductPost, ProductPut, productsDelete,
+};

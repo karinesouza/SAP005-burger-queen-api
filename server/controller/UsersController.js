@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 const db = require('../db/models');
 
 const getAllUsers = (req, res) => {
@@ -7,9 +8,8 @@ const getAllUsers = (req, res) => {
     })
     .catch(() =>
       res.json({
-        message: "Deu ruim!",
-      })
-    );
+        message: 'Deu ruim!',
+      }));
 };
 
 const getUserId = (req, res) => {
@@ -19,13 +19,14 @@ const getUserId = (req, res) => {
     })
     .catch(() =>
       res.json({
-        message: "Deu ruim!",
-      })
-    );
+        message: 'Deu ruim!',
+      }));
 };
 
 const usersPost = (req, res) => {
-  const { name, email, password, role, restaurant } = req.body;
+  const {
+    name, email, password, role, restaurant,
+  } = req.body;
   db.Users.create({
     name,
     email,
@@ -38,13 +39,14 @@ const usersPost = (req, res) => {
     })
     .catch(() =>
       res.json({
-        message: "Deu ruim!",
-      })
-    );
+        message: 'Deu ruim!',
+      }));
 };
 
 const usersPut = (req, res) => {
-  const { name, email, password, role, restaurant } = req.body;
+  const {
+    name, email, password, role, restaurant,
+  } = req.body;
   db.Users.update(
     {
       name,
@@ -53,16 +55,16 @@ const usersPut = (req, res) => {
       role,
       restaurant,
     },
-    { where: { id: req.params.id } }
+    { where: { id: req.params.id } },
   )
     .then(() => {
       res.status(200).json({
-        message: "Dados atualizados!",
+        message: 'Dados atualizados!',
       });
     })
     .catch(() => {
       res.json({
-        message: "Deu ruim!",
+        message: 'Deu ruim!',
       });
     });
 };
@@ -70,14 +72,16 @@ const usersDelete = (req, res) => {
   db.Users.destroy({ where: { id: req.params.id } })
     .then(() => {
       res.status(200).json({
-        message: "Deletado!",
+        message: 'Deletado!',
       });
     })
     .catch(() => {
       res.json({
-        message: "Deu ruim!",
+        message: 'Deu ruim!',
       });
     });
 };
 
-module.exports = { getAllUsers, getUserId, usersPost, usersPut, usersDelete  }
+module.exports = {
+  getAllUsers, getUserId, usersPost, usersPut, usersDelete,
+};
