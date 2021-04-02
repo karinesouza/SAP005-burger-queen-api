@@ -1,38 +1,26 @@
+/* eslint-disable object-curly-spacing */
+/* eslint-disable object-curly-newline */
+/* eslint-disable indent */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable camelcase */
 const db = require('../db/models');
 
 const getAllOrders = (req, res) => {
-  // const { user_id } = req.params;
-
-  // const user = db.Users.findByPk(user_id, {
-  //   include: { association: 'users' },
-  // });
-
   db.Orders.findAll()
     .then((result) => {
       // res.status(200).json(user.users);
       res.status(200).json(result);
     })
-    .catch((error) => {
-      res.status(400).json(error.message);
-    // eslint-disable-next-line semi
-    })
+    .catch(() => res.json({
+      message: 'Erro',
+    }));
 };
 
 const orderPost = (req, res) => {
-  // const { user_id } = req.params;
   const {
     user_id, client_name, table, status, 
   } = req.body;
-
-  // const user = db.Users.findByPk(user_id);
-
-  // if (!user) {
-  //   return res.status(400).json({ error: 'User not found' });
-  // }
-
-  db.Orders.create({
+ db.Orders.create({
     user_id,
     client_name,
     table,
@@ -41,10 +29,9 @@ const orderPost = (req, res) => {
     .then((result) => {
       res.status(201).json(result);
     })
-    .catch((error) => {
-      res.status(400).json(error.message);
-    // eslint-disable-next-line semi
-    })
+    .catch(() => res.json({
+      message: 'Erro',
+    }));
 };
 
 const getOrderId = (req, res) => {
@@ -53,7 +40,7 @@ const getOrderId = (req, res) => {
       res.status(200).json(products);
     })
     .catch(() => res.json({
-      message: 'erro ao processar requisição',
+      message: 'Erro',
     }));
 };
 
@@ -70,28 +57,24 @@ const orderPut = (req, res) => {
 
     .then(() => {
       res.status(200).json({
-        message: 'ordem atualizada',
+        message: 'Atualizada!',
       });
     })
-    .catch(() => {
-      res.json({
-        message: 'erro ao atualizar ordem',
-      });
-    });
+    .catch(() => res.json({
+      message: 'Erro',
+    }));
 };
 
 const orderDelete = (req, res) => {
   db.Orders.destroy({ where: { id: req.params.id } })
     .then(() => {
       res.status(200).json({
-        message: 'ordem excluída',
+        message: 'Excluida!',
       });
     })
-    .catch(() => {
-      res.json({
-        message: 'erro ao excluir ordem',
-      });
-    });
+    .catch(() => res.json({
+      message: 'Erro',
+    }));
 };
 
-module.exports = { getAllOrders, getOrderId , orderPost, orderPut, orderDelete}
+module.exports = { getAllOrders, getOrderId, orderPost, orderPut, orderDelete};

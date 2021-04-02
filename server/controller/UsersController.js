@@ -19,7 +19,7 @@ const getUserId = (req, res) => {
     })
     .catch(() =>
       res.json({
-        message: 'Deu ruim!',
+        message: 'Erro!',
       }));
 };
 
@@ -37,10 +37,10 @@ const usersPost = (req, res) => {
     .then((result) => {
       res.status(201).json(result);
     })
-    .catch((error) => {
-      res.status(400).json(error.message);
-    // eslint-disable-next-line semi
-    })
+    .catch(() =>
+      res.json({
+        message: 'Erro!',
+      }));
 };
 
 const usersPut = (req, res) => {
@@ -64,7 +64,7 @@ const usersPut = (req, res) => {
     })
     .catch(() => {
       res.json({
-        message: 'Deu ruim!',
+        message: 'Erro!',
       });
     });
 };
@@ -77,7 +77,7 @@ const usersDelete = (req, res) => {
     })
     .catch(() => {
       res.json({
-        message: 'Deu ruim!',
+        message: 'Erro!',
       });
     });
 };
