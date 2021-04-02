@@ -1,6 +1,3 @@
-/* eslint-disable lines-around-directive */
-// eslint-disable-next-line strict
-'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Users', {
@@ -11,24 +8,39 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING,
         allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+        type: Sequelize.STRING,
       },
       email: {
-        type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
+          notEmpty: true,
+        },
+        type: Sequelize.STRING,
       },
       password: {
-        type: Sequelize.STRING,
         allowNull: false,
+        validate: {
+          notEmpty: true,
+          len: [6, 20],
+        },
+        type: Sequelize.STRING,
       },
       role: {
-        type: Sequelize.STRING,
         allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+        type: Sequelize.STRING,
       },
       restaurant: {
-        type: Sequelize.STRING,
         allowNull: false,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -40,8 +52,7 @@ module.exports = {
       },
     });
   },
-  // eslint-disable-next-line no-unused-vars
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     await queryInterface.dropTable('Users');
   },
 };

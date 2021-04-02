@@ -14,15 +14,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     // eslint-disable-next-line no-unused-vars
     static associate(models) {
-      // define association here
+        Users.hasMany(models.Orders, {
+          foreignKey: 'user_id',
+          as: 'ordersMany',
+        });
+      }
     }
-  }
   Users.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    role: DataTypes.STRING,
-    restaurant: DataTypes.STRING,
+      name: DataTypes.STRING,
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
+      role: DataTypes.STRING,
+      restaurant: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Users',

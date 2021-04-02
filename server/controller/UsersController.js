@@ -6,10 +6,10 @@ const getAllUsers = (req, res) => {
     .then((result) => {
       res.status(200).json(result);
     })
-    .catch(() =>
-      res.json({
-        message: 'Deu ruim!',
-      }));
+    .catch((error) => {
+      res.status(400).json(error);
+    // eslint-disable-next-line semi
+    })
 };
 
 const getUserId = (req, res) => {
@@ -37,10 +37,10 @@ const usersPost = (req, res) => {
     .then((result) => {
       res.status(201).json(result);
     })
-    .catch(() =>
-      res.json({
-        message: 'Deu ruim!',
-      }));
+    .catch((error) => {
+      res.status(400).json(error.message);
+    // eslint-disable-next-line semi
+    })
 };
 
 const usersPut = (req, res) => {

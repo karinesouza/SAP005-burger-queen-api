@@ -8,7 +8,6 @@ const getAllProducts = (req, res) => {
     .then((result) => {
       res.status(200).json(result);
       // eslint-disable-next-line no-undef
-      connection.end();
     })
     .catch(() =>
       res.json({
@@ -43,10 +42,10 @@ const ProductPost = (req, res) => {
     .then((result) => {
       res.status(201).json(result);
     })
-    .catch(() =>
-      res.json({
-        message: "Deu ruim!",
-      }));
+    .catch((error) => {
+      res.status(400).json(error.message);
+    // eslint-disable-next-line semi
+    })
 };
 
 const ProductPut = (req, res) => {
@@ -70,11 +69,10 @@ const ProductPut = (req, res) => {
         message: "Dados atualizados!",
       });
     })
-    .catch(() => {
-      res.json({
-        message: "Deu ruim!",
-      });
-    });
+    .catch((error) => {
+      res.status(400).json(error);
+    // eslint-disable-next-line semi
+    })
 };
 
 const productsDelete = (req, res) => {

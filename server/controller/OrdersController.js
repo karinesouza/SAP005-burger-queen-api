@@ -1,3 +1,5 @@
+/* eslint-disable no-trailing-spaces */
+/* eslint-disable camelcase */
 const db = require('../db/models');
 
 const getAllOrders = (req, res) => {
@@ -7,20 +9,21 @@ const getAllOrders = (req, res) => {
   //   include: { association: 'users' },
   // });
 
-  db.Order.findAll()
+  db.Orders.findAll()
     .then((result) => {
       // res.status(200).json(user.users);
       res.status(200).json(result);
     })
-    .catch(() => res.json({
-      message: 'erro ao processar requisição',
-    }));
+    .catch((error) => {
+      res.status(400).json(error.message);
+    // eslint-disable-next-line semi
+    })
 };
 
 const orderPost = (req, res) => {
   // const { user_id } = req.params;
   const {
-    user_id, client_name, table, status, processedAt,
+    user_id, client_name, table, status, 
   } = req.body;
 
   // const user = db.Users.findByPk(user_id);
@@ -29,25 +32,25 @@ const orderPost = (req, res) => {
   //   return res.status(400).json({ error: 'User not found' });
   // }
 
-  db.Order.create({
+  db.Orders.create({
     user_id,
     client_name,
     table,
     status,
-    processedAt,
   })
     .then((result) => {
       res.status(201).json(result);
     })
-    .catch(() => res.json({
-      message: 'erro ao salvar ordem',
-    }));
+    .catch((error) => {
+      res.status(400).json(error.message);
+    // eslint-disable-next-line semi
+    })
 };
 
 const getOrderId = (req, res) => {
-  db.Order.findAll({ where: { id: req.params.id } })
-    .then((product) => {
-      res.status(200).json(product);
+  db.Orders.findAll({ where: { id: req.params.id } })
+    .then((products) => {
+      res.status(200).json(products);
     })
     .catch(() => res.json({
       message: 'erro ao processar requisição',
@@ -56,14 +59,13 @@ const getOrderId = (req, res) => {
 
 const orderPut = (req, res) => {
   const {
-    user_id, client_name, table, status, processedAt,
+    user_id, client_name, table, status,
   } = req.body;
-  db.Order.update({
+  db.Orders.update({
     user_id,
     client_name,
     table,
     status,
-    processedAt,
   }, { where: { id: req.params.id } })
 
     .then(() => {
@@ -79,7 +81,7 @@ const orderPut = (req, res) => {
 };
 
 const orderDelete = (req, res) => {
-  db.Order.destroy({ where: { id: req.params.id } })
+  db.Orders.destroy({ where: { id: req.params.id } })
     .then(() => {
       res.status(200).json({
         message: 'ordem excluída',
@@ -91,7 +93,5 @@ const orderDelete = (req, res) => {
       });
     });
 };
-
-
 
 module.exports = { getAllOrders, getOrderId , orderPost, orderPut, orderDelete}

@@ -1,35 +1,28 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Products', {
+    await queryInterface.createTable('Orders', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      name: {
+      user_id: {
+        allowNull: false,
+        references: { model: 'Users', key: 'id' },
+        type: Sequelize.INTEGER,
+      },
+      client_name: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      price: {
+      table: {
         allowNull: false,
-        type: Sequelize.DOUBLE,
+        type: Sequelize.INTEGER,
       },
-      flavor: {
-        type: Sequelize.STRING,
-      },
-      complement: {
-        type: Sequelize.STRING,
-      },
-      image: {
+      status: {
         allowNull: false,
-        type: Sequelize.STRING,
-      },
-      type: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      sub_type: {
+        defaultValue: 'pending',
         type: Sequelize.STRING,
       },
       createdAt: {
@@ -43,6 +36,6 @@ module.exports = {
     });
   },
   down: async (queryInterface) => {
-    await queryInterface.dropTable('Products');
+    await queryInterface.dropTable('Orders');
   },
 };
